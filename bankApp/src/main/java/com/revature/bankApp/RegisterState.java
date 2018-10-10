@@ -1,5 +1,11 @@
 package com.revature.bankApp;
 
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class RegisterState extends State {
 
 	@Override
@@ -10,7 +16,45 @@ public class RegisterState extends State {
 
 	@Override
 	void acceptInput(String input) {
-		// TODO Auto-generated method stub
+		try(Connection conn = ConnectionUtil.getConnection()) {
+			String sql = "SELECT * FROM BankUsers WHERE username=?";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, input);
+			ResultSet rs = ps.executeQuery();
+			
+			System.out.println("Please input password");
+			String pass = sc.nextLine();
+			
+			System.out.println("Reconfirm password");
+			String pass2 = sc.nextLine();
+			
+			if (pass != pass2) {
+				System.out.println("Passwords do not match");
+				State.state = new OpeningState();
+				return;
+			}
+			
+			if(rs.next()) {
+				System.out.println("Username is already in use");
+			}
+			else {
+				sql = "INSERT INTO BankUsers (username,password,usertype) VALUES (?, ?, Customer)";
+				PreparedStatement ps2 = conn.prepareStatement(sql);
+				ps2.setString(1, input);
+				ps2.setString(2, pass);
+				ps2.execute();
+				ps2.close();
+				System.out.println("Registration complete");
+				State.state = new LoginState();
+			}
+			
+			rs.close();
+			ps.close();
+		} catch (SQLException ex) {
+			ex.getMessage();
+		} catch (IOException ex) {
+			ex.getMessage();
+		}
 
 	}
 

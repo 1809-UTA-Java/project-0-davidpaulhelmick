@@ -1,13 +1,14 @@
 package com.revature.bankApp;
 
 /**
- * Hello world!
+ * BankingApp by davidpaulhelmick
  *
  */
 public class App 
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        State.state = new OpeningState();
+        State.run();
     }
 }

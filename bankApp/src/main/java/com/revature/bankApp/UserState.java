@@ -9,7 +9,8 @@ public abstract class UserState extends State {
 	protected void logout() {
 		State.username = null;
 		State.password = null;
-		State.account = -1;
+		State.account = "-1";
+		State.state = new OpeningState();
 	}
 
 }
