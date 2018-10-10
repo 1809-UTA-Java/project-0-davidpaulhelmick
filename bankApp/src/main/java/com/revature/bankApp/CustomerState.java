@@ -68,6 +68,7 @@ public class CustomerState extends UserState {
 				
 			} catch (SQLException ex) {
 				ex.getMessage();
+				System.out.println("You do not have an account with that number");
 			} catch (IOException ex) {
 				ex.getMessage();
 			}

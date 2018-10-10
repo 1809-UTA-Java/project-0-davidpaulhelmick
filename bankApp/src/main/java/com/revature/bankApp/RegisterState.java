@@ -20,7 +20,6 @@ public class RegisterState extends State {
 			String sql = "SELECT * FROM BankUsers WHERE username=?";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, input);
-			ResultSet rs = ps.executeQuery();
 			
 			System.out.println("Please input password");
 			String pass = sc.nextLine();
@@ -34,10 +33,11 @@ public class RegisterState extends State {
 				return;
 			}
 			
-			if(rs.next()) {
+			if(!ps.execute()) {
 				System.out.println("Username is already in use");
 			}
 			else {
+				ResultSet rs = ps.executeQuery();
 				sql = "INSERT INTO BankUsers (username,p4ssword,usertype) VALUES (?, ?, Customer)";
 				PreparedStatement ps2 = conn.prepareStatement(sql);
 				ps2.setString(1, input);
@@ -46,9 +46,10 @@ public class RegisterState extends State {
 				ps2.close();
 				System.out.println("Registration complete");
 				State.state = new LoginState();
+				rs.close();
 			}
 			
-			rs.close();
+
 			ps.close();
 		} catch (SQLException ex) {
 			ex.getMessage();

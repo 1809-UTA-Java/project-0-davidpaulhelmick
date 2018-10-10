@@ -16,16 +16,16 @@ public class LoginState extends State {
 
 	@Override
 	void acceptInput(String input) {
+		System.out.println("Please input password");
+		String pass = sc.nextLine();
 		try(Connection conn = ConnectionUtil.getConnection()) {
 			String sql = "SELECT * FROM BankUsers WHERE username=?";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, input);
-			ResultSet rs = ps.executeQuery();
 			
-			System.out.println("Please input password");
-			String pass = sc.nextLine();
 			
-			if(rs.next()) {
+			if(ps.execute()) {
+				ResultSet rs = ps.executeQuery();
 				if (pass == rs.getString("p4ssword")) {
 					String userType = rs.getString("usertype");
 					if (userType == "Customer") {
@@ -44,12 +44,13 @@ public class LoginState extends State {
 						State.password = pass;
 					}
 				}
+				rs.close();
 			}
 			else {
 				System.out.println("Invalid username or password");
+				State.state = new OpeningState();
 			}
 			
-			rs.close();
 			ps.close();
 		} catch (SQLException ex) {
 			ex.getMessage();

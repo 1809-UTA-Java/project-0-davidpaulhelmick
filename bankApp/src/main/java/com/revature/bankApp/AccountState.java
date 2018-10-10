@@ -112,8 +112,7 @@ public class AccountState extends State {
 					String sql = "SELECT * FROM BankAccounts WHERE accountID=?";
 					PreparedStatement ps = conn.prepareStatement(sql);
 					ps.setString(1, target);
-					ResultSet rs = ps.executeQuery();
-					if(rs.next()) {
+					if(ps.execute()) {
 						sql = "{CALL TRANSFER_SP(?, ?, ?)}";
 						CallableStatement cs = conn.prepareCall(sql);
 						cs.setString(1, State.account);
@@ -127,7 +126,6 @@ public class AccountState extends State {
 					}
 					
 					ps.close();
-					rs.close();
 				} catch (SQLException ex) {
 					ex.getMessage();
 				} catch (IOException ex) {
