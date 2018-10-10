@@ -75,7 +75,7 @@ public class CustomerState extends UserState {
 		case 'v':
 		case 'V':
 			try(Connection conn = ConnectionUtil.getConnection()) {
-				String sql = "SELECT BankRelations.username, BankAccounts.accountID, BankAccounts.balance, BankAccounts.status FROM BankRelations INNERJOIN BankAccounts ON BankRelations.accountID=BankAccounts.accountID WHERE username=?";
+				String sql = "SELECT BankRelationships.username, BankAccounts.accountID, BankAccounts.balance, BankAccounts.status FROM BankRelations INNERJOIN BankAccounts ON BankRelationships.accountID=BankAccounts.accountID WHERE username=?";
 				PreparedStatement ps = conn.prepareStatement(sql);
 				ps.setString(1, State.username);
 				ResultSet rs = ps.executeQuery();

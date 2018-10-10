@@ -38,7 +38,7 @@ public class RegisterState extends State {
 				System.out.println("Username is already in use");
 			}
 			else {
-				sql = "INSERT INTO BankUsers (username,password,usertype) VALUES (?, ?, Customer)";
+				sql = "INSERT INTO BankUsers (username,p4ssword,usertype) VALUES (?, ?, Customer)";
 				PreparedStatement ps2 = conn.prepareStatement(sql);
 				ps2.setString(1, input);
 				ps2.setString(2, pass);

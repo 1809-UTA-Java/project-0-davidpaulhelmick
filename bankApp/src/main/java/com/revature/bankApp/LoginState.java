@@ -26,7 +26,7 @@ public class LoginState extends State {
 			String pass = sc.nextLine();
 			
 			if(rs.next()) {
-				if (pass == rs.getString("password")) {
+				if (pass == rs.getString("p4ssword")) {
 					String userType = rs.getString("usertype");
 					if (userType == "Customer") {
 						State.state = new CustomerState();
