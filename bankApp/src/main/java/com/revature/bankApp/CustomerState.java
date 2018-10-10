@@ -68,7 +68,6 @@ public class CustomerState extends UserState {
 				
 			} catch (SQLException ex) {
 				ex.getMessage();
-				System.out.println("You do not have an account with that number");
 			} catch (IOException ex) {
 				ex.getMessage();
 			}
@@ -92,12 +91,12 @@ public class CustomerState extends UserState {
 		case 'r':
 		case 'R':
 			try(Connection conn = ConnectionUtil.getConnection()) {
-				String sql = "INSERT INTO BankRelations VALUES (?, account_sequence.NEXTVAL)";
+				String sql = "INSERT INTO BankRelationships VALUES (?, account_sequence.NEXTVAL)";
 				PreparedStatement ps = conn.prepareStatement(sql);
 				ps.setString(1, State.username);
 				ps.execute();
 				ps.close();
-				sql = "INSERT INTO BankAccounts VALUES (account_sequence.CURRBAL, 0.0, 'Pending'";
+				sql = "INSERT INTO BankAccounts VALUES (account_sequence.CURRBAL, 0.00, 'Pending')";
 				PreparedStatement ps2 = conn.prepareStatement(sql);
 				ps2.execute();
 				ps2.close();

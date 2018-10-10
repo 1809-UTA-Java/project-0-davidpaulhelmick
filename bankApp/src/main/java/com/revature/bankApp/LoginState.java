@@ -22,23 +22,22 @@ public class LoginState extends State {
 			String sql = "SELECT * FROM BankUsers WHERE username=?";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, input);
+			ResultSet rs = ps.executeQuery();
 			
-			
-			if(ps.execute()) {
-				ResultSet rs = ps.executeQuery();
-				if (pass == rs.getString("p4ssword")) {
+			if(rs.next()) {
+				if (pass.equals(rs.getString("p4ssword"))) {
 					String userType = rs.getString("usertype");
-					if (userType == "Customer") {
+					if (userType.equals("Customer")) {
 						State.state = new CustomerState();
 						State.username = input;
 						State.password = pass;
 					}
-					else if (userType == "Employee") {
+					else if (userType.equals("Employee")) {
 						State.state = new EmployeeState();
 						State.username = input;
 						State.password = pass;
 					}
-					else if (userType == "Admin") {
+					else if (userType.equals("Admin")) {
 						State.state = new AdminState();
 						State.username = input;
 						State.password = pass;
